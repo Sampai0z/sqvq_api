@@ -1,13 +1,13 @@
 {
-  "name": "yogg_api",
+  "name": "sqvq",
   "version": "1.0.0",
-  "description": "API YOGG - CLIENTE",
+  "description": "API SQVQ - CLIENTE",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
     "test": ""
   },
-  "author": "Info Moreira",
+  "author": "Duo Wave",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",

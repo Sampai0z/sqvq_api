@@ -1,19 +1,20 @@
 const express = require("express");
 const TestesController = require("../controllers/testes.controller");
-// const AuthController = require("../controllers/authController");
-const FornecedoresController = require("../controllers/fornecedores.controller");
-const UsuariosController = require("../controllers/usuarios.controller");
+// const AdministradoresController = require("../controllers/administradores.controller");
+const ClientesController = require("../controllers/clientes.controller");
 const router = express.Router();
 
-router.get("/usuarios/teste", UsuariosController.testeUm);
+// COLOCAR OS METHODOS (CRUD) APÓS O ROUTER E DEPOIS DO NOME ". + FUNÇÃO QUE DESEJA"
 
-//
+//GET
+router.get("/testes/padrao", TestesController.testeUm);
+// //POST
+router.post("/clientes/cadastro", ClientesController.cadastro);
+// //DELETE
+// router.delete("/testes/padrao-dois", TestesController.testeDois);
+// //UPDATE
+// router.update("/testes/padrao-quatro", TestesController.testeQuatro);
 
-router.get("/fornecedores/listagem/teste", FornecedoresController.testeUm);
-router.get("/fornecedores/listagem", FornecedoresController.listagem);
-router.post(
-	"/fornecedores/cadastro",
-	FornecedoresController.cadastroFornecedor
-);
+//EM CIMA EU TAMBÉM ESCREVO COMO EU QUERO QUE SEJA A ROTA QUE SERÁ ESCRITA.
 
 module.exports = router;
