@@ -1,4 +1,6 @@
+const { DatabaseError } = require("sequelize");
 const ClientesModel = require("../models/clientes.model");
+const { query } = require("express");
 
 const ClientesController = {
   async testeUm(req, res) {
