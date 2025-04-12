@@ -12,6 +12,7 @@ class UsuariosModel extends Model {
       {
         sequelize,
         tableName: "clientes",
+        timestamps: false,
       }
     );
   }
