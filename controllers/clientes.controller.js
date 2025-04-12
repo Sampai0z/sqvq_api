@@ -34,6 +34,30 @@ const ClientesController = {
       });
     }
   },
+
+  async listarClientes(req, res) {
+    try {
+      const clientes = await ClientesModel.findAll();
+  
+      return res.status(200).send({
+        status: 200,
+        message: "Clientes encontrados com sucesso!",
+        data: clientes,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({
+        status: 500,
+        message: "Erro ao buscar clientes",
+        data: null,
+        error: error,
+      });
+    }
+  }
+
 };
+
+
+
 
 module.exports = ClientesController;

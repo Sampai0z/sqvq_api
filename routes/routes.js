@@ -10,6 +10,7 @@ const router = express.Router();
 router.get("/testes/padrao", TestesController.testeUm);
 // //POST
 router.post("/clientes/cadastro", ClientesController.cadastro);
+router.get("/clientes/lista", ClientesController.listarClientes);
 // //DELETE
 // router.delete("/testes/padrao-dois", TestesController.testeDois);
 // //UPDATE
