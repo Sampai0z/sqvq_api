@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const encomendasController = {
 	async cadastroEncomendas(req, res) {
 		try {
-			if (!req.body.status) {
+			if (!req.body.cliente_id) {
 				return res.status(400).send({
 					status: 400,
 					message: "Por favor ...",
@@ -18,7 +18,7 @@ const encomendasController = {
 			console.log(req.body);
 
 			let encomenda = await EncomendasModel.findOne({
-				where: { encomenda: req.body.status },
+				where: { cliente_id: req.body.cliente_id },
 			});
 
 			if (encomenda) {
@@ -29,7 +29,13 @@ const encomendasController = {
 				});
 			}
 
-			let query = await EncomendasModel.create(req.body);
+			let query = await EncomendasModel.create({
+				cliente_id: req.body.cliente_id,  // <- o id do cliente que veio da outra tabela
+				descricao: req.body.descricao,
+				status: req.body.status,
+				data_entrega: req.body.data_entrega,
+				criado_em: new Date(),
+			});
 
 			if (query) {
 				return res
