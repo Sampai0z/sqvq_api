@@ -2,43 +2,20 @@ const { DatabaseError } = require("sequelize");
 const ClientesModel = require("../models/clientes.model");
 const { query } = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const ClientesController = {
-  async cadastro(req, res) {
+  async listarClientes(req, res) {
     try {
-      if (!req.body.nome) {
+      if (!req.body.admin_id) {
         return res.status(400).send({
           status: 400,
           message: "Por favor ...",
           data: null,
         });
       }
-      console.log(req.body);
 
-      let query = await ClientesModel.create(req.body);
-
-      if (query) {
-        return res
-          .status(200)
-          .send({ status: 200, message: "ok", data: query });
-      }
-    } catch (err) {
-      console.error(err);
-      return res.status(500).send({
-        status: 500,
-        message: "algum erro geral",
-        data: null,
-        error: err,
-      });
-    }
-  },
-
-  async testeUm(req, res) {
-    return res.status(200).send("pagina ta funcionando");
-  },
-
-  async listarClientes(req, res) {
-    try {
       const clientes = await ClientesModel.findAll();
 
       return res.status(200).send({
@@ -57,9 +34,61 @@ const ClientesController = {
     }
   },
 
+  async cadastro(req, res) {
+    try {
+      if (!req.body.nome) {
+        console.log(req.body.nome, req.body.email);
+        return res.status(400).send({
+          status: 400,
+          message: "Por favor envie seu nome ...",
+          data: null,
+        });
+      }
+
+      let cliente = await ClientesModel.findOne({
+        where: { email: req.body.email },
+      });
+
+      if (cliente) {
+        return res.status(400).send({
+          status: 400,
+          message: "Já existe um cadastro com esse e-mail ...",
+          data: null,
+        });
+      }
+
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+
+      // GERAR O PAYLOAD DO TOKEN
+      const payload = { email: req.body.email };
+      const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "7d", // token expira em 7 dias
+      });
+
+      let query = await ClientesModel.create(req.body);
+
+      if (query) {
+        return res.status(200).send({
+          status: 200,
+          message: "ok",
+          data: query,
+          token: token, // retorna o token no response
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send({
+        status: 500,
+        message: "algum erro geral",
+        data: null,
+        error: err,
+      });
+    }
+  },
+
   async login(req, res) {
     try {
-      let { email, password } = req.body;
+      let { email, password } = req.query;
 
       if (!req.body) {
         return res.status(400).send({
@@ -88,14 +117,16 @@ const ClientesController = {
         const match = await bcrypt.compare(password, cliente.password);
 
         if (match) {
-          return res
-            .status(200)
-            .json({ status: 200, message: "ok", data: cliente });
-        } else {
-          return res.status(401).json({
-            status: 401,
-            message: "Usuário não encontrado, tente novamente.",
-            data: null,
+          const payload = { id: cliente.id, email: cliente.email };
+          const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "1d",
+          });
+
+          return res.status(200).json({
+            status: 200,
+            message: "Login feito com sucesso.",
+            token,
+            data: cliente,
           });
         }
       } else {
@@ -105,6 +136,10 @@ const ClientesController = {
           data: null,
         });
       }
+
+      return res
+        .status(200)
+        .json({ message: "Login feito com sucesso.", token });
     } catch (error) {
       console.log(error);
       return res

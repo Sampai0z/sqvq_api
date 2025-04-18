@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acesso à Rota Protegida</title>
+  </head>
+  <body>
+    <h1>Bem-vindo à Rota Protegida!</h1>
+    <p>Se você está vendo essa página, você foi autorizado a acessá-la!</p>
+
+    <button id="acessar-rota">Acessar Dados Protegidos</button>
+    <button id="logout">Deslogar</button>
+    <button id="listar">listar</button>
+
+    <script>
+      // Função para verificar se o usuário está logado
+
+      function verificarLogin() {
+        const token = localStorage.getItem("authToken");
+
+        // Se o token não estiver no localStorage, o usuário não está logado
+        if (!token) {
+          alert("Você não está logado. Redirecionando para a página de login.");
+          window.location.href = "index.html"; // Redireciona para a página de login
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("authToken");
+        alert("Você saiu com sucesso!");
+        window.location.href = "index.html";
+      }
+
+      async function listar() {
+        const token = localStorage.getItem("authToken");
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/clientes/lista",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`, // Enviar o token no cabeçalho
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Acesso autorizado", data);
+            alert(
+              "Acesso autorizado. Dados recebidos: " + JSON.stringify(data)
+            );
+          } else {
+            const errorData = await response.json();
+            console.error(
+              "Erro ao acessar a rota protegida",
+              errorData.message
+            );
+            alert("Erro ao acessar a rota protegida: " + errorData.message);
+          }
+        } catch (error) {
+          console.error("Erro ao tentar acessar a rota protegida", error);
+          alert("Erro ao tentar acessar a rota protegida.");
+        }
+      }
+      // Função para acessar a rota protegida
+      async function acessarRotaProtegida() {
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          console.error("Token não encontrado. Faça login novamente.");
+          alert("Token não encontrado. Faça login novamente.");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:3000/api/protegida", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`, // Enviar o token no cabeçalho
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Acesso autorizado", data);
+            alert(
+              "Acesso autorizado. Dados recebidos: " + JSON.stringify(data)
+            );
+          } else {
+            const errorData = await response.json();
+            console.error(
+              "Erro ao acessar a rota protegida",
+              errorData.message
+            );
+            alert("Erro ao acessar a rota protegida: " + errorData.message);
+          }
+        } catch (error) {
+          console.error("Erro ao tentar acessar a rota protegida", error);
+          alert("Erro ao tentar acessar a rota protegida.");
+        }
+      }
+
+      // Verifica se o usuário está logado ao carregar a página
+      verificarLogin();
+
+      // Adiciona um evento de clique ao botão para acessar a rota
+      document
+        .getElementById("acessar-rota")
+        .addEventListener("click", acessarRotaProtegida);
+      document.getElementById("logout").addEventListener("click", logout);
+      document.getElementById("listar").addEventListener("click", listar);
+    </script>
+  </body>
+</html>

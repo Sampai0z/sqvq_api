@@ -4,14 +4,29 @@ const TestesController = require("../controllers/testes.controller");
 const ClientesController = require("../controllers/clientes.controller");
 const EncomendasController = require("../controllers/encomendas.controller");
 const router = express.Router();
+const token = require("../middleware/auth");
 
 // COLOCAR OS METHODOS (CRUD) APÓS O ROUTER E DEPOIS DO NOME ". + FUNÇÃO QUE DESEJA"
 
 //GET
-router.get("/testes/padrao", TestesController.testeUm);
+//clientes
 router.get("/clientes/login", ClientesController.login);
 
-router.get("/clientes/lista", ClientesController.listarClientes);
+//ADM
+// router.get("/adm/login", AdministradoresController.login);
+
+router.get("/protegida", token.autenticarToken, (req, res) => {
+  res.status(200).json({
+    message: "Você está autenticado!",
+    usuario: req.usuario,
+  });
+});
+
+router.get(
+  "/clientes/lista",
+  token.autenticarToken,
+  ClientesController.listarClientes
+);
 router.get("/encomendas/lista", EncomendasController.listarEncomendas);
 
 // //POST
