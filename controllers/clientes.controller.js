@@ -4,9 +4,6 @@ const { query } = require("express");
 const bcrypt = require("bcrypt");
 
 const ClientesController = {
-  async testeUm(req, res) {
-    return res.status(200).send("pagina ta funcionando");
-  },
   async cadastro(req, res) {
     try {
       if (!req.body.nome) {
@@ -34,6 +31,10 @@ const ClientesController = {
         error: err,
       });
     }
+  },
+
+  async testeUm(req, res) {
+    return res.status(200).send("pagina ta funcionando");
   },
 
   async listarClientes(req, res) {
