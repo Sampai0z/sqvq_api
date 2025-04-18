@@ -8,6 +8,7 @@ const router = express.Router();
 
 //GET
 router.get("/testes/padrao", TestesController.testeUm);
+router.get("/clientes/login", ClientesController.login);
 // //POST
 router.post("/clientes/cadastro", ClientesController.cadastro);
 router.get("/clientes/lista", ClientesController.listarClientes);
