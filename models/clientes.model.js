@@ -1,23 +1,29 @@
-const { Model, DataTypes } = require("sequelize");
+const { Model, DataTypes } = require('sequelize');
 
 class UsuariosModel extends Model {
   static init(sequelize) {
-    super.init(
+    return super.init(
       {
-        nome: { type: DataTypes.STRING, allowNull: true },
-        sobrenome: { type: DataTypes.STRING, allowNull: true },
-        email: { type: DataTypes.STRING, allowNull: true },
-        password: { type: DataTypes.STRING, allowNull: true },
+        nome: { type: DataTypes.STRING, allowNull: false,},
+        email: { type: DataTypes.STRING, unique: true, allowNull: false,},
+        telefone: { type: DataTypes.STRING, allowNull: false, },
+        endereco: { type: DataTypes.TEXT, allowNull: false,},
+        password: { type: DataTypes.STRING, allowNull: false, },
+        tipo: { type: DataTypes.ENUM('cliente', 'funcionario', 'admin'), defaultValue: 'cliente', allowNull: true},
       },
       {
         sequelize,
-        tableName: "clientes",
+        modelName: 'Cliente',
+        tableName: 'clientes',
         timestamps: false,
       }
     );
   }
 
-  static associate(models) {}
+  static associate(models) {
+    // this.hasMany(models.Pedido, { foreignKey: 'cliente_id', as: 'pedidos' });
+    // this.hasMany(models.AtualizacaoPedido, { foreignKey: 'feito_por', as: 'atualizacoes' });
+  }
 }
 
 module.exports = UsuariosModel;

@@ -70,9 +70,6 @@ const encomendasController = {
       });
     }
   },
-  async testeUm(req, res) {
-    return res.status(200).send("pagina ta funcionando");
-  },
 };
 
 module.exports = encomendasController;

@@ -112,7 +112,7 @@ const ClientesController = {
     try {
       let { email, password } = req.query;
 
-      if (!req.body) {
+      if (!email || !password) {
         return res.status(400).send({
           status: 400,
           message: "Envie seus dados corretamente.",
@@ -159,9 +159,9 @@ const ClientesController = {
         });
       }
 
-      return res
-        .status(200)
-        .json({ message: "Login feito com sucesso.", token });
+      // return res
+      //   .status(200)
+      //   .json({ message: "Login feito com sucesso.", token});
     } catch (error) {
       console.log(error);
       return res
