@@ -15,18 +15,14 @@ router.get("/clientes/login", ClientesController.login);
 //ADM
 // router.get("/adm/login", AdministradoresController.login);
 
-router.get("/protegida", token.autenticarToken, (req, res) => {
-  res.status(200).json({
-    message: "Você está autenticado!",
-    usuario: req.usuario,
-  });
-});
+router.get("/usuario", ClientesController.usuario);
 
 router.get(
   "/clientes/lista",
   token.autenticarToken,
   ClientesController.listarClientes
 );
+
 router.get("/encomendas/lista", EncomendasController.listarEncomendas);
 
 // //POST

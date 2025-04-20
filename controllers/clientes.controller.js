@@ -33,6 +33,28 @@ const ClientesController = {
       });
     }
   },
+  async usuario(req, res) {
+    try {
+      const token = req.headers.authorization?.split(" ")[1];
+
+      if (!token) {
+        return res.status(401).json({ message: "Token não fornecido" });
+      }
+
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      const user = await ClientesModel.findByPk(decoded.id, {
+        attributes: { exclude: ["password"] }, // não envia a senha
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
+      }
+
+      return res.json(user);
+    } catch (err) {
+      return res.status(401).json({ message: "Token inválido ou expirado" });
+    }
+  },
 
   async cadastro(req, res) {
     try {
