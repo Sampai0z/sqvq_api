@@ -55,11 +55,9 @@ const ClientesController = {
       return res.status(401).json({ message: "Token inválido ou expirado" });
     }
   },
-
   async cadastro(req, res) {
     try {
       if (!req.body.nome) {
-        console.log(req.body.nome, req.body.email);
         return res.status(400).send({
           status: 400,
           message: "Por favor envie seu nome ...",
@@ -67,11 +65,11 @@ const ClientesController = {
         });
       }
 
-      let cliente = await ClientesModel.findOne({
+      let clienteExistente = await ClientesModel.findOne({
         where: { email: req.body.email },
       });
 
-      if (cliente) {
+      if (clienteExistente) {
         return res.status(400).send({
           status: 400,
           message: "Já existe um cadastro com esse e-mail ...",
@@ -81,22 +79,25 @@ const ClientesController = {
 
       req.body.password = await bcrypt.hash(req.body.password, 10);
 
-      // GERAR O PAYLOAD DO TOKEN
-      const payload = { email: req.body.email };
-      const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "7d", // token expira em 7 dias
+      // Criar o cliente
+      let clienteCriado = await ClientesModel.create(req.body);
+
+      // Gerar token com o ID do cliente criado
+      const token = jwt.sign(
+        { id: clienteCriado.id },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
+
+      // Responder com sucesso
+      return res.status(200).send({
+        status: 200,
+        message: "ok",
+        data: clienteCriado,
+        token: token,
       });
-
-      let query = await ClientesModel.create(req.body);
-
-      if (query) {
-        return res.status(200).send({
-          status: 200,
-          message: "ok",
-          data: query,
-          token: token, // retorna o token no response
-        });
-      }
     } catch (err) {
       console.error(err);
       return res.status(500).send({
@@ -107,7 +108,6 @@ const ClientesController = {
       });
     }
   },
-
   async login(req, res) {
     try {
       let { email, password } = req.query;
@@ -158,10 +158,6 @@ const ClientesController = {
           data: null,
         });
       }
-
-      // return res
-      //   .status(200)
-      //   .json({ message: "Login feito com sucesso.", token});
     } catch (error) {
       console.log(error);
       return res

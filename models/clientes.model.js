@@ -1,20 +1,31 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 class UsuariosModel extends Model {
   static init(sequelize) {
     return super.init(
       {
-        nome: { type: DataTypes.STRING, allowNull: false,},
-        email: { type: DataTypes.STRING, unique: true, allowNull: false,},
-        telefone: { type: DataTypes.STRING, allowNull: false, },
-        endereco: { type: DataTypes.TEXT, allowNull: false,},
-        password: { type: DataTypes.STRING, allowNull: false, },
-        tipo: { type: DataTypes.ENUM('cliente', 'funcionario', 'admin'), defaultValue: 'cliente', allowNull: true},
+        nome: { type: DataTypes.STRING, allowNull: false },
+        email: { type: DataTypes.STRING, unique: true, allowNull: false },
+        password: { type: DataTypes.STRING, allowNull: false },
+        telefone: { type: DataTypes.STRING, allowNull: false },
+        endereco: { type: DataTypes.TEXT, allowNull: false },
+        cidade: { type: DataTypes.STRING, allowNull: false },
+        cep: { type: DataTypes.STRING, allowNull: false },
+        data_cadastro: {
+          type: DataTypes.DATE,
+          allowNull: false,
+          defaultValue: DataTypes.NOW,
+        },
+        // tipo: {
+        //   type: DataTypes.ENUM("cliente", "funcionario", "admin"),
+        //   defaultValue: "cliente",
+        //   allowNull: true,
+        // },
       },
       {
         sequelize,
-        modelName: 'Cliente',
-        tableName: 'clientes',
+        modelName: "Cliente",
+        tableName: "clientes",
         timestamps: false,
       }
     );
