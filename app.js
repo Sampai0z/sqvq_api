@@ -15,19 +15,25 @@ const config = require("./config/config");
 const { Sequelize } = require("sequelize");
 // const AdministradoresModel = require("./models/administradores.model");
 const ClientesModel = require("./models/clientes.model");
-const EncomendasModel = require("./models/encomendas.model");
+const PedidoModel = require("./models/pedidos.model");
+const ItemPedidoModel = require("./models/itemPedido.model");
+const ProdutoModel = require("./models/produto.model");
 const conection = new Sequelize(config.development);
 
 // INICIALIZAÇÃO DOS MODELS
 
 // AdministradoresModel.init(conection);
 ClientesModel.init(conection);
-EncomendasModel.init(conection);
+ProdutoModel.init(conection);
+PedidoModel.init(conection);
+ItemPedidoModel.init(conection);
 
 // ASSOCIAÇÃO DOS MODELS
 // AdministradoresModel.associate(conection.models);
 ClientesModel.associate(conection.models);
-EncomendasModel.associate(conection.models);
+PedidoModel.associate(conection.models);
+ItemPedidoModel.associate(conection.models);
+ProdutoModel.associate(conection.models);
 
 // ROTA BASE DA API
 app.use(cors()); // ATIVA O CORS
