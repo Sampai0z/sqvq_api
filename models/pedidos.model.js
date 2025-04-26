@@ -1,9 +1,14 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Pedido extends Model {
+class PedidoModel extends Model {
   static init(sequelize) {
     super.init(
       {
+        cod_pedido: {
+          type: DataTypes.STRING(5),
+          allowNull: false,
+          unique: true,
+        },
         status: {
           type: DataTypes.ENUM("a_fazer", "em_producao", "entregue"),
           defaultValue: "a_fazer",
@@ -28,12 +33,11 @@ class Pedido extends Model {
       foreignKey: "cliente_id",
       as: "cliente",
     });
-
     this.hasMany(models.ItemPedido, {
       foreignKey: "pedido_id",
-      as: "itens",
+      as: "itens_pedido",
     });
   }
 }
 
-module.exports = Pedido;
+module.exports = PedidoModel;

@@ -62,3 +62,8 @@ CREATE TABLE `atualizacoes_pedido` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`pedido_id`) REFERENCES `pedidos`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+---ADIÇÃO DA COLUNA cod_pedido NA TABELA pedidos---
+ALTER TABLE pedidos
+ADD COLUMN cod_pedido VARCHAR(255) NOT NULL UNIQUE;

@@ -1,7 +1,7 @@
 const express = require("express");
 const AdministradoresController = require("../controllers/administradores.controller");
 const ClientesController = require("../controllers/clientes.controller");
-const EncomendasController = require("../controllers/encomendas.controller");
+const PedidosController = require("../controllers/pedido.controller");
 const router = express.Router();
 const token = require("../middleware/auth");
 
@@ -19,10 +19,11 @@ router.get(
   ClientesController.listarClientes
 );
 
-router.get("/encomendas/lista", EncomendasController.listarEncomendas);
-
 router.post("/clientes/cadastro", ClientesController.cadastro);
-router.post("/encomendas/cadastro", EncomendasController.cadastroEncomendas);
+
+//PEDIDOS
+router.post("/pedidos", PedidosController.criarPedido);
+router.get("/lista_pedidos", PedidosController.listaPedido);
 
 //ADM
 router.get("/adm/login", AdministradoresController.login);
