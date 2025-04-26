@@ -1,11 +1,11 @@
 const { DatabaseError } = require("sequelize");
-const EncomendasModel = require("../models/encomendas.model");
+const PedidosModel = require("../models/pedidos.model");
 const { query } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const encomendasController = {
-  async cadastroEncomendas(req, res) {
+const PedidosController = {
+  async cadastroPedidos(req, res) {
     try {
       if (!req.body.cliente_id) {
         return res.status(400).send({
@@ -17,7 +17,7 @@ const encomendasController = {
 
       console.log(req.body);
 
-      let encomenda = await EncomendasModel.findOne({
+      let encomenda = await PedidosModel.findOne({
         where: { cliente_id: req.body.cliente_id },
       });
 
@@ -29,7 +29,7 @@ const encomendasController = {
         });
       }
 
-      let query = await EncomendasModel.create({
+      let query = await PedidosModel.create({
         cliente_id: req.body.cliente_id, // <- o id do cliente que veio da outra tabela
         descricao: req.body.descricao,
         status: req.body.status,
@@ -52,19 +52,19 @@ const encomendasController = {
       });
     }
   },
-  async listarEncomendas(req, res) {
+  async listarPedidos(req, res) {
     try {
-      const encomendas = await EncomendasModel.findAll();
+      const pedidos = await PedidosModel.findAll();
       return res.status(200).send({
         status: 200,
-        message: "Encomendas encontrados com sucesso!",
-        data: encomendas,
+        message: "Pedidos encontrados com sucesso!",
+        data: pedidos,
       });
     } catch (error) {
       console.error(error);
       return res.status(500).send({
         status: 500,
-        message: "Erro ao buscar encomendas",
+        message: "Erro ao buscar pedidos",
         data: null,
         error: error,
       });
@@ -72,4 +72,4 @@ const encomendasController = {
   },
 };
 
-module.exports = encomendasController;
+module.exports = PedidosController;

@@ -32,8 +32,10 @@ class UsuariosModel extends Model {
   }
 
   static associate(models) {
-    // this.hasMany(models.Pedido, { foreignKey: 'cliente_id', as: 'pedidos' });
-    // this.hasMany(models.AtualizacaoPedido, { foreignKey: 'feito_por', as: 'atualizacoes' });
+    this.hasMany(models.Pedido, {
+      foreignKey: "cliente_id",
+      as: "pedidos",
+    });
   }
 }
 
