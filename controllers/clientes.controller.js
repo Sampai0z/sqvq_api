@@ -1,4 +1,3 @@
-const { DatabaseError } = require("sequelize");
 const ClientesModel = require("../models/clientes.model");
 const { query } = require("express");
 const bcrypt = require("bcrypt");

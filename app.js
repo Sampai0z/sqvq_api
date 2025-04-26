@@ -13,19 +13,19 @@ const app = express();
 
 const config = require("./config/config");
 const { Sequelize } = require("sequelize");
-// const AdministradoresModel = require("./models/administradores.model");
+const AdministradoresModel = require("./models/administradores.model");
 const ClientesModel = require("./models/clientes.model");
 const EncomendasModel = require("./models/encomendas.model");
 const conection = new Sequelize(config.development);
 
 // INICIALIZAÇÃO DOS MODELS
 
-// AdministradoresModel.init(conection);
+AdministradoresModel.init(conection);
 ClientesModel.init(conection);
 EncomendasModel.init(conection);
 
 // ASSOCIAÇÃO DOS MODELS
-// AdministradoresModel.associate(conection.models);
+AdministradoresModel.associate(conection.models);
 ClientesModel.associate(conection.models);
 EncomendasModel.associate(conection.models);
 

@@ -1,6 +1,5 @@
 const express = require("express");
-const TestesController = require("../controllers/testes.controller");
-// const AdministradoresController = require("../controllers/administradores.controller");
+const AdministradoresController = require("../controllers/administradores.controller");
 const ClientesController = require("../controllers/clientes.controller");
 const EncomendasController = require("../controllers/encomendas.controller");
 const router = express.Router();
@@ -12,9 +11,6 @@ const token = require("../middleware/auth");
 //clientes
 router.get("/clientes/login", ClientesController.login);
 
-//ADM
-// router.get("/adm/login", AdministradoresController.login);
-
 router.get("/usuario", ClientesController.usuario);
 
 router.get(
@@ -25,9 +21,13 @@ router.get(
 
 router.get("/encomendas/lista", EncomendasController.listarEncomendas);
 
-// //POST
 router.post("/clientes/cadastro", ClientesController.cadastro);
 router.post("/encomendas/cadastro", EncomendasController.cadastroEncomendas);
+
+//ADM
+router.get("/adm/login", AdministradoresController.login);
+router.get("/administrador", AdministradoresController.administradorLogado);
+router.post("/adm/cadastro", AdministradoresController.cadastrarAdmin);
 
 // //DELETE
 // router.delete("/testes/padrao-dois", TestesController.testeDois);
