@@ -1,7 +1,7 @@
 const PedidoModel = require("../models/pedidos.model"); // Ajuste conforme seu path
 const ItemPedidoModel = require("../models/itemPedido.model"); // Ajuste conforme seu path
 const ProdutoModel = require("../models/produto.model"); // Ajuste conforme seu path
-
+const jwt = require("jsonwebtoken");
 // Função para gerar código único
 const gerarCodigoPedidoUnico = async () => {
   const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -124,4 +124,51 @@ const listaPedido = async (req, res) => {
   }
 };
 
-module.exports = { criarPedido, listaPedido };
+//listando pro user
+const listaPedidoUser = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "Token não fornecido" });
+    }
+
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const userId = decoded.id; // AQUI estava errado
+
+    // Busca os pedidos deste usuário e inclui os itens associados
+    const pedidos = await PedidoModel.findAll({
+      where: { cliente_id: userId },
+      include: [
+        {
+          model: ItemPedidoModel,
+          as: "itens_pedido", // Alias correto
+          include: [
+            {
+              model: ProdutoModel,
+              as: "produto", // Alias de produto
+            },
+          ],
+        },
+      ],
+    });
+
+    return res.status(200).send({
+      status: 200,
+      message: "Pedidos encontrados com sucesso!",
+      data: pedidos,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({
+      status: 500,
+      message: "Erro ao buscar pedidos",
+      data: null,
+      error: error.message, // Exibe a mensagem do erro
+      stack: error.stack, // Exibe o stack trace para mais detalhes
+    });
+  }
+};
+
+module.exports = { criarPedido, listaPedido, listaPedidoUser };
