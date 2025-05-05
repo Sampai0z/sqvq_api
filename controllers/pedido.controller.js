@@ -1,6 +1,6 @@
-const PedidoModel  = require("../models/pedidos.model"); // Ajuste conforme seu path
-const ItemPedidoModel  = require("../models/itemPedido.model"); // Ajuste conforme seu path
-const ProdutoModel  = require("../models/produto.model"); // Ajuste conforme seu path
+const PedidoModel  = require("../models/pedidos.model"); 
+const ItemPedidoModel  = require("../models/itemPedido.model"); 
+const ProdutoModel  = require("../models/produto.model"); 
 
 // Função para gerar código único
 const gerarCodigoPedidoUnico = async () => {
