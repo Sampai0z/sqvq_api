@@ -2,6 +2,7 @@ const PedidoModel = require("../models/pedidos.model"); // Ajuste conforme seu p
 const ItemPedidoModel = require("../models/itemPedido.model"); // Ajuste conforme seu path
 const ProdutoModel = require("../models/produto.model"); // Ajuste conforme seu path
 const jwt = require("jsonwebtoken");
+
 // Função para gerar código único
 const gerarCodigoPedidoUnico = async () => {
   const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
