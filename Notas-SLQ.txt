@@ -67,3 +67,10 @@ CREATE TABLE `atualizacoes_pedido` (
 ---ADIÇÃO DA COLUNA cod_pedido NA TABELA pedidos---
 ALTER TABLE pedidos
 ADD COLUMN cod_pedido VARCHAR(255) NOT NULL UNIQUE;
+
+
+---alterar tabela produtos---
+
+ALTER TABLE produtos ADD COLUMN quantidade INTEGER DEFAULT 100;
+
+adicionar produtos:

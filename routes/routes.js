@@ -24,6 +24,7 @@ router.post("/clientes/cadastro", ClientesController.cadastro);
 //PEDIDOS
 router.post("/pedidos", PedidosController.criarPedido);
 router.get("/lista_pedidos", PedidosController.listaPedido);
+router.get("/lista_pedidos_user", PedidosController.listaPedidoUser);
 
 //ADM
 router.get("/adm/login", AdministradoresController.login);
