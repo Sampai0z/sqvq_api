@@ -34,7 +34,7 @@ router.post("/adm/cadastro", AdministradoresController.cadastrarAdmin);
 // //DELETE
 // router.delete("/testes/padrao-dois", TestesController.testeDois);
 // //UPDATE
-// router.update("/testes/padrao-quatro", TestesController.testeQuatro);
+router.put("/cliente/endereco", ClientesController.alterEndereco);
 
 //EM CIMA EU TAMBÉM ESCREVO COMO EU QUERO QUE SEJA A ROTA QUE SERÁ ESCRITA.
 

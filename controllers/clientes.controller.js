@@ -107,6 +107,43 @@ const ClientesController = {
       });
     }
   },
+  async alterEndereco(req, res) {
+    try {
+      const token = req.headers.authorization?.split(" ")[1];
+
+      if (!token) {
+        return res.status(401).json({ message: "Token não fornecido" });
+      }
+
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      const user = await ClientesModel.findByPk(decoded.id);
+
+      if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
+      }
+
+      // Pega os dados do novo endereço do corpo da requisição
+      const { endereco, cep, numero, complemento, bairro, cidade, estado } =
+        req.body;
+
+      // Atualiza os campos (ajuste os nomes dos campos conforme seu modelo)
+      await user.update({
+        endereco,
+        cidade,
+        estado,
+        cep,
+        numero,
+        complemento,
+        bairro,
+      });
+
+      return res.json({ message: "Endereço atualizado com sucesso!", user });
+    } catch (err) {
+      console.error(err);
+      return res.status(401).json({ message: "Token inválido ou expirado" });
+    }
+  },
+
   async login(req, res) {
     try {
       let { email, password } = req.query;

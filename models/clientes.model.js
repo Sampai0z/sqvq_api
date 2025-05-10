@@ -8,9 +8,16 @@ class UsuariosModel extends Model {
         email: { type: DataTypes.STRING, unique: true, allowNull: false },
         password: { type: DataTypes.STRING, allowNull: false },
         telefone: { type: DataTypes.STRING, allowNull: false },
-        endereco: { type: DataTypes.TEXT, allowNull: false },
         cidade: { type: DataTypes.STRING, allowNull: false },
+        endereco: { type: DataTypes.TEXT, allowNull: false },
+        numero: { type: DataTypes.STRING, allowNull: false },
+        bairro: { type: DataTypes.TEXT, allowNull: false },
+        complemento: { type: DataTypes.TEXT, allowNull: false },
         cep: { type: DataTypes.STRING, allowNull: false },
+        estado: {
+          type: DataTypes.STRING(2),
+          allowNull: true, // ou false se for obrigatório
+        },
         data_cadastro: {
           type: DataTypes.DATE,
           allowNull: false,
