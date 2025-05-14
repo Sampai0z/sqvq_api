@@ -2,6 +2,7 @@ const PedidoModel = require("../models/pedidos.model"); // Ajuste conforme seu p
 const ItemPedidoModel = require("../models/itemPedido.model"); // Ajuste conforme seu path
 const ProdutoModel = require("../models/produto.model"); // Ajuste conforme seu path
 const jwt = require("jsonwebtoken");
+const ClientesModel = require("../models/clientes.model");
 
 // Função para gerar código único
 const gerarCodigoPedidoUnico = async () => {
@@ -97,6 +98,11 @@ const listaPedido = async (req, res) => {
   try {
     const pedidos = await PedidoModel.findAll({
       include: [
+        {
+          model: ClientesModel,
+          as: "cliente", // nome do alias usado no relacionamento
+          attributes: ["nome", "endereco", "telefone", "email"], // coloque os campos que você quiser retornar
+        },
         {
           model: ItemPedidoModel,
           as: "itens_pedido",
