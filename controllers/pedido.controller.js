@@ -101,7 +101,17 @@ const listaPedido = async (req, res) => {
         {
           model: ClientesModel,
           as: "cliente", // nome do alias usado no relacionamento
-          attributes: ["nome", "endereco", "telefone", "email"], // coloque os campos que você quiser retornar
+          attributes: [
+            "nome",
+            "endereco",
+            "telefone",
+            "email",
+            "bairro",
+            "complemento",
+            "numero",
+            "cep",
+            "cidade",
+          ], // coloque os campos que você quiser retornar
         },
         {
           model: ItemPedidoModel,
