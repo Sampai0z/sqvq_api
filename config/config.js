@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const config = {
   development: {
     username: "root",
@@ -7,10 +9,11 @@ const config = {
     dialect: "mysql",
   },
   production: {
-    username: "root",
-    password: "",
-    database: "vai_vencer",
-    host: "localhost",
+    username: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    host: process.env.MYSQLHOST,
+    port: process.env.MYSQLPORT || 3306,
     dialect: "mysql",
   },
 };
