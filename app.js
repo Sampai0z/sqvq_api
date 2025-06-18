@@ -45,7 +45,7 @@ app.use(fileUpload());
 app.use("/api", homeRouter);
 
 try {
-  app.listen(3000, () => {
+  app.listen(process.env.PORT || 3000, () => {
     console.log("A API está ouvindo em http://localhost:3000");
   });
 } catch (error) {
