@@ -5,20 +5,31 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
+const env = process.env.NODE_ENV || "development";
+
 // LISTAGEM DE ROTAS
 const homeRouter = require("./routes/routes");
 
 // START NO EXPRESS
 const app = express();
 
-const config = require("./config/config");
+const config = require("./config/config")[env];
 const { Sequelize } = require("sequelize");
 const AdministradoresModel = require("./models/administradores.model");
 const ClientesModel = require("./models/clientes.model");
 const PedidoModel = require("./models/pedidos.model");
 const ItemPedidoModel = require("./models/itemPedido.model");
 const ProdutoModel = require("./models/produto.model");
-const conection = new Sequelize(config.development);
+const conection = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  {
+    host: config.host,
+    port: config.port || 3306,
+    dialect: config.dialect,
+  }
+);
 
 // INICIALIZAÇÃO DOS MODELS
 
