@@ -20,9 +20,11 @@ const ItemPedidoModel = require("./models/itemPedido.model");
 const ProdutoModel = require("./models/produto.model");
 const conection = new Sequelize(config.development);
 
+//root:gQjNZqeNfVjFxqIiIEAzTVNmKsoXVGQF@ballast.proxy.rlwy.net:25984/railway
+
 // INICIALIZAÇÃO DOS MODELS
 
-AdministradoresModel.init(conection);
+mysql: AdministradoresModel.init(conection);
 ClientesModel.init(conection);
 ProdutoModel.init(conection);
 PedidoModel.init(conection);
